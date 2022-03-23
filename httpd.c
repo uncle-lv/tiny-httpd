@@ -54,6 +54,7 @@ void unimplemented(int);
 /**********************************************************************/
 void accept_request(void *arg)
 {
+    printf("accept a request...\n");
     int client = (intptr_t)arg;
     char buf[1024];
     size_t numchars;
@@ -66,6 +67,7 @@ void accept_request(void *arg)
                        * program */
     char *query_string = NULL;
 
+    // read request line
     numchars = get_line(client, buf, sizeof(buf));
     i = 0; j = 0;
     while (!ISspace(buf[i]) && (i < sizeof(method) - 1))
@@ -139,6 +141,7 @@ void accept_request(void *arg)
 /**********************************************************************/
 void bad_request(int client)
 {
+    printf("handle a bad request...\n");
     char buf[1024];
 
     sprintf(buf, "HTTP/1.0 400 BAD REQUEST\r\n");
@@ -210,6 +213,7 @@ void error_die(const char *sc)
 void execute_cgi(int client, const char *path,
         const char *method, const char *query_string)
 {
+    printf("execute cgi...\n");
     char buf[1024];
     int cgi_output[2];
     int cgi_input[2];
@@ -368,6 +372,7 @@ void headers(int client, const char *filename)
 /**********************************************************************/
 void not_found(int client)
 {
+    printf("handle a Not Found request\n");
     char buf[1024];
 
     sprintf(buf, "HTTP/1.0 404 NOT FOUND\r\n");
@@ -399,6 +404,7 @@ void not_found(int client)
 /**********************************************************************/
 void serve_file(int client, const char *filename)
 {
+    printf("serve file...\n");
     FILE *resource = NULL;
     int numchars = 1;
     char buf[1024];
@@ -464,6 +470,7 @@ int startup(u_short *port)
 /**********************************************************************/
 void unimplemented(int client)
 {
+    printf("handle an unimplemented method...\n");
     char buf[1024];
 
     sprintf(buf, "HTTP/1.0 501 Method Not Implemented\r\n");
